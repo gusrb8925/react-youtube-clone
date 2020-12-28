@@ -3,6 +3,7 @@ import { List, Avatar, Row, Col } from 'antd';
 import axios from 'axios';
 import SideVideo from './Sections/SideVideo';
 import Subscribe from './Sections/Subscribe';
+import Comment from './Sections/Comment';
 
 function DetailVideoPage(props) {
 
@@ -10,20 +11,33 @@ function DetailVideoPage(props) {
     const videoVariable = {
         videoId: videoId
     };
-
     const [videoDetail, setvideoDetail] = useState([]);
+    const [Comments, setComments] = useState([]);
     
     useEffect(() => {
         axios.post('/api/video/getVideoDetail', videoVariable)
             .then(response => {
                 if (response.data.success) {
-                    console.log(response.data.video)
+                    // console.log(response.data.video);
                     setvideoDetail(response.data.videoDetail)
                 } else {
                     alert('Failed to get video Info')
                 }
             })
+
+         axios.post('/api/comment/getComments', videoVariable)
+         .then(response => {
+             if(response.data.success) {
+                setComments(response.data.comments)
+             } else {
+                 alert("Failed to get commnet info");
+             }
+         })   
     }, [])
+
+    const refreshFunction = (newComments) => {
+        setComments(Comments.concat(newComments));
+    }
 
     if(videoDetail.writer) {
 
@@ -39,12 +53,15 @@ function DetailVideoPage(props) {
                             actions={[subscribeButton]}
                         >
                             <List.Item.Meta
-                                avatar={<Avatar src={videoDetail.writer.images}/>}
+                                avatar={<Avatar src={videoDetail.writer.image}/>}
                                 title={<a href="https://ant.design">{videoDetail.title}</a>}
                                 description={videoDetail.description}
                             />
                             <div></div>
                         </List.Item>
+
+                        {/* comment */}
+                        <Comment commentList={Comments} postId={videoId} refreshFunction={refreshFunction}/>
                     </div>
                 </Col>
                 <Col lg={6} xs={24}>
