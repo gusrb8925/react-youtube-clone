@@ -26,6 +26,9 @@ function DetailVideoPage(props) {
     }, [])
 
     if(videoDetail.writer) {
+
+        const subscribeButton = videoDetail.writer._id !== localStorage.getItem("userId") && <Subscribe userTo={videoDetail.writer._id}/>
+
         return (
             <Row>
                 <Col lg={18} xs={24}>
@@ -33,7 +36,7 @@ function DetailVideoPage(props) {
                         <video style={{ width: '100%' }} src={`http://localhost:5000/${videoDetail.filePath}`} controls></video>
 
                         <List.Item
-                            actions={[<Subscribe userTo={videoDetail.writer._id}/>]}
+                            actions={[subscribeButton]}
                         >
                             <List.Item.Meta
                                 avatar={<Avatar src={videoDetail.writer.images}/>}
