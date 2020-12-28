@@ -4,6 +4,7 @@ import axios from 'axios';
 import SideVideo from './Sections/SideVideo';
 import Subscribe from './Sections/Subscribe';
 import Comment from './Sections/Comment';
+import LikeDislikes from './Sections/LikeDislikes';
 
 function DetailVideoPage(props) {
 
@@ -50,7 +51,7 @@ function DetailVideoPage(props) {
                         <video style={{ width: '100%' }} src={`http://localhost:5000/${videoDetail.filePath}`} controls></video>
 
                         <List.Item
-                            actions={[subscribeButton]}
+                            actions={[<LikeDislikes video videoId={videoId} />, subscribeButton]}
                         >
                             <List.Item.Meta
                                 avatar={<Avatar src={videoDetail.writer.image}/>}

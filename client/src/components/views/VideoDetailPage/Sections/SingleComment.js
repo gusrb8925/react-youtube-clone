@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Comment, Avatar, Button, Input } from 'antd';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-// import LikeDislikes from './LikeDislikes';
+import LikeDislikes from './LikeDislikes';
 const { TextArea } = Input;
 
 function SingleComment(props) {
@@ -43,7 +43,8 @@ function SingleComment(props) {
     }
 
     const actions = [
-        <span onClick={OpenReplyHandle} key="comment-basic-reply-to">Reply to </span>
+        <LikeDislikes commentId={props.comment._id}/>
+        ,<span onClick={OpenReplyHandle} key="comment-basic-reply-to">Reply to </span>
     ]
 
     return (
